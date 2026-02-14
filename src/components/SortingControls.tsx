@@ -1,15 +1,30 @@
-export default function Sorting() {
+import useJobItemsContext from "../lib/hooks";
+
+export default function SortingControls() {
+  const { sortBy, handleChangeSort } = useJobItemsContext();
   return (
     <section className="sorting">
       <i className="fa-solid fa-arrow-down-short-wide"></i>
-
-      <button className="sorting__button sorting__button--relevant">
+      <SortingButton onClick={() => handleChangeSort("relevance")} isActive={sortBy === "relevance"}>
         Relevant
-      </button>
-
-      <button className="sorting__button sorting__button--recent">
+      </SortingButton>
+      <SortingButton onClick={() => handleChangeSort("recent")} isActive={sortBy === "recent"}>
         Recent
-      </button>
+      </SortingButton>
     </section>
+  );
+}
+
+type SortingButtonProps = {
+  onClick: () => void;
+  children: React.ReactNode;
+  isActive?: boolean;
+};
+
+function SortingButton({ onClick, children, isActive }: SortingButtonProps) {
+  return (
+    <button className={`sorting__button ${isActive ? "sorting__button--active" : ""}`} onClick={onClick}>
+      {children}
+    </button>
   );
 }
